@@ -1,0 +1,153 @@
+let assetModal = null;
+let editMode = false;
+let editRow = 0;
+let currentAssetUID = "";
+
+function openAssetModal() {
+
+    clearAssetForm();
+
+    editMode = false;
+    currentAssetUID = "";
+
+    document.querySelector("#assetModal .modal-title").innerText = "เพิ่มวัสดุ";
+
+    assetModal = new bootstrap.Modal(
+        document.getElementById("assetModal")
+    );
+
+    assetModal.show();
+
+}
+
+function clearAssetForm() {
+
+    document.getElementById("assetCode").value = "";
+    document.getElementById("assetName").value = "";
+    document.getElementById("quantity").value = 1;
+    document.getElementById("unit").value = "";
+    document.getElementById("location").value = "";
+    document.getElementById("remark").value = "";
+
+}
+
+function editAsset(rowNumber) {
+
+    editMode = true;
+    editRow = rowNumber;
+
+    google.script.run
+
+        .withSuccessHandler(function(asset){
+
+            currentAssetUID = asset[0];
+
+            document.querySelector("#assetModal .modal-title").innerText = "แก้ไขวัสดุ";
+
+            document.getElementById("assetCode").value = asset[1];
+            document.getElementById("assetName").value = asset[4];
+            document.getElementById("quantity").value = asset[8];
+            document.getElementById("unit").value = asset[9];
+            document.getElementById("location").value = asset[10];
+            document.getElementById("remark").value = asset[12];
+
+            assetModal = new bootstrap.Modal(
+                document.getElementById("assetModal")
+            );
+
+            assetModal.show();
+
+        })
+
+        .withFailureHandler(function(err){
+
+            alert(err.message);
+
+        })
+
+        .apiGetAsset(rowNumber);
+
+}
+
+function saveAsset() {
+
+    const assetCode = document.getElementById("assetCode").value.trim();
+    const assetName = document.getElementById("assetName").value.trim();
+
+    if(assetCode === ""){
+
+        alert("กรุณากรอกรหัสวัสดุ");
+
+        return;
+
+    }
+
+    if(assetName === ""){
+
+        alert("กรุณากรอกชื่อวัสดุ");
+
+        return;
+
+    }
+
+    const asset = {
+
+        assetUID: editMode ? currentAssetUID : crypto.randomUUID(),
+
+        assetCode: assetCode,
+
+        qrCode: "",
+
+        receiveDate: new Date(),
+
+        assetName: assetName,
+
+        imageFront: "",
+
+        imageLeft: "",
+
+        imageRight: "",
+
+        quantity: Number(document.getElementById("quantity").value),
+
+        unit: document.getElementById("unit").value.trim(),
+
+        location: document.getElementById("location").value.trim(),
+
+        condition: "GOOD",
+
+        remark: document.getElementById("remark").value.trim()
+
+    };
+
+    const runner = google.script.run
+
+        .withSuccessHandler(function(){
+
+            assetModal.hide();
+
+            loadDashboard();
+
+            loadAssets();
+
+            alert(editMode ? "แก้ไขข้อมูลสำเร็จ" : "บันทึกข้อมูลสำเร็จ");
+
+        })
+
+        .withFailureHandler(function(err){
+
+            alert(err.message);
+
+        });
+
+    if(editMode){
+
+        runner.apiUpdateAsset(editRow, asset);
+
+    }else{
+
+        runner.apiAddAsset(asset);
+
+    }
+
+}

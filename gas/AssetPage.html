@@ -1,0 +1,144 @@
+<div class="modal fade" id="assetModal" tabindex="-1">
+
+    <div class="modal-dialog modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h5 class="modal-title">
+
+                    เพิ่มวัสดุ
+
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            รหัสวัสดุ
+
+                        </label>
+
+                        <input
+                            id="assetCode"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="col-md-6">
+
+                        <label class="form-label">
+
+                            ชื่อวัสดุ
+
+                        </label>
+
+                        <input
+                            id="assetName"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            จำนวน
+
+                        </label>
+
+                        <input
+                            id="quantity"
+                            type="number"
+                            value="1"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            หน่วย
+
+                        </label>
+
+                        <input
+                            id="unit"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="col-md-4">
+
+                        <label class="form-label">
+
+                            สถานที่
+
+                        </label>
+
+                        <input
+                            id="location"
+                            class="form-control">
+
+                    </div>
+
+                    <div class="col-md-12">
+
+                        <label class="form-label">
+
+                            หมายเหตุ
+
+                        </label>
+
+                        <textarea
+                            id="remark"
+                            rows="3"
+                            class="form-control"></textarea>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal">
+
+                    ยกเลิก
+
+                </button>
+
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="saveAsset()">
+
+                    บันทึก
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,209 @@
+<script>
+
+let assetData = [];
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    loadDashboard();
+    loadAssets();
+
+    const txtSearch = document.getElementById("txtSearch");
+
+    if (txtSearch) {
+        txtSearch.addEventListener("keyup", searchAssets);
+    }
+
+});
+
+function loadDashboard() {
+
+    google.script.run
+
+        .withSuccessHandler(function (data) {
+
+            document.getElementById("assetCount").innerText = data.assetCount || 0;
+            document.getElementById("locationCount").innerText = data.locationCount || 0;
+            document.getElementById("checkedCount").innerText = data.checkedCount || 0;
+            document.getElementById("waitingCount").innerText = data.waitingCount || 0;
+
+            console.log("Dashboard :", data);
+
+        })
+
+        .withFailureHandler(function(err){
+
+            console.error("Dashboard Error :", err);
+
+            alert(err.message);
+
+        })
+
+        .getDashboard();
+
+}
+
+function loadAssets() {
+
+    google.script.run
+
+        .withSuccessHandler(function (data) {
+
+            console.log("SUCCESS :", data);
+
+            assetData = data || [];
+
+            renderAssets(assetData);
+
+        })
+
+        .withFailureHandler(function(err){
+
+            console.error("ERROR :", err);
+
+            alert(err.message);
+
+        })
+
+        .apiGetAssets();
+
+}
+
+function renderAssets(data) {
+
+    const tbody = document.getElementById("assetTable");
+
+    if (!tbody) return;
+
+    tbody.innerHTML = "";
+
+    if (!data || data.length <= 1) {
+
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    ยังไม่มีข้อมูล
+                </td>
+            </tr>
+        `;
+
+        return;
+
+    }
+
+    for (let i = 1; i < data.length; i++) {
+
+        const r = data[i];
+
+        tbody.innerHTML += `
+            <tr>
+
+                <td>${r[1] ?? ""}</td>
+
+                <td>${r[4] ?? ""}</td>
+
+                <td>${r[10] ?? ""}</td>
+
+                <td class="text-center">${r[8] ?? ""}</td>
+
+                <td>
+
+                    <span class="badge bg-success">
+
+                        ${r[13] ?? "ACTIVE"}
+
+                    </span>
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="btn btn-warning btn-sm me-1"
+                        onclick="editAsset(${i + 1})">
+
+                        แก้ไข
+
+                    </button>
+
+                    <button
+                        class="btn btn-danger btn-sm"
+                        onclick="deleteAsset(${i + 1})">
+
+                        ลบ
+
+                    </button>
+
+                </td>
+
+            </tr>
+        `;
+
+    }
+
+}
+
+function searchAssets() {
+
+    const keyword = document
+        .getElementById("txtSearch")
+        .value
+        .trim()
+        .toLowerCase();
+
+    if (keyword === "") {
+
+        renderAssets(assetData);
+
+        return;
+
+    }
+
+    const result = [];
+
+    result.push(assetData[0]);
+
+    for (let i = 1; i < assetData.length; i++) {
+
+        const row = assetData[i].join(" ").toLowerCase();
+
+        if (row.includes(keyword)) {
+
+            result.push(assetData[i]);
+
+        }
+
+    }
+
+    renderAssets(result);
+
+}
+
+function deleteAsset(rowNumber) {
+
+    if (!confirm("ต้องการลบรายการนี้ใช่หรือไม่ ?")) return;
+
+    google.script.run
+
+        .withSuccessHandler(function () {
+
+            alert("ลบข้อมูลสำเร็จ");
+
+            loadDashboard();
+
+            loadAssets();
+
+        })
+
+        .withFailureHandler(function(err){
+
+            console.error(err);
+
+            alert(err.message);
+
+        })
+
+        .apiDeleteAsset(rowNumber);
+
+}
+
+</script>

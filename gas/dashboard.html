@@ -1,0 +1,104 @@
+<div class="container-fluid">
+
+    <div class="row g-3">
+
+        <div class="col-md-3">
+            <div class="card card-modern p-4">
+                <small class="text-muted">วัสดุทั้งหมด</small>
+                <h2 id="assetCount">0</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-modern p-4">
+                <small class="text-muted">ตรวจแล้ว</small>
+                <h2 id="checkedCount">0</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-modern p-4">
+                <small class="text-muted">รอตรวจ</small>
+                <h2 id="waitingCount">0</h2>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card card-modern p-4">
+                <small class="text-muted">สถานที่</small>
+                <h2 id="locationCount">0</h2>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="card card-modern mt-4">
+
+        <div class="card-header d-flex justify-content-between align-items-center">
+
+            <strong>รายการวัสดุถาวร</strong>
+
+            <div class="d-flex gap-2">
+
+                <input
+                    id="txtSearch"
+                    class="form-control"
+                    placeholder="ค้นหารหัส / ชื่อวัสดุ">
+
+                <button
+                    class="btn btn-primary"
+                    onclick="openAssetModal()">
+
+                    + เพิ่มวัสดุ
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-hover table-striped align-middle">
+
+                <thead>
+
+                    <tr>
+
+                        <th width="160">รหัสวัสดุ</th>
+
+                        <th>ชื่อวัสดุ</th>
+
+                        <th width="180">สถานที่</th>
+
+                        <th width="100">จำนวน</th>
+
+                        <th width="120">สถานะ</th>
+
+                        <th width="180">จัดการ</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="assetTable">
+
+                    <tr>
+
+                        <td colspan="6" class="text-center text-muted">
+
+                            กำลังโหลดข้อมูล...
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
