@@ -24,15 +24,7 @@ function include(filename) {
 /**
  * Dashboard
  */
-function getDashboard() {
 
-  return {
-    assetCount: getAssetCount(),
-    version: VERSION.VERSION,
-    appName: VERSION.APP_NAME
-  };
-
-}
 
 /**
  * Test

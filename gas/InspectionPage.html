@@ -1,0 +1,56 @@
+<div id="inspection-page" class="container-fluid" style="display:none;">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+
+        <h3>📋 ตรวจนับครุภัณฑ์</h3>
+
+        <button class="btn btn-primary"
+                onclick="openInspectionRoundModal()">
+
+            + เปิดรอบตรวจ
+
+        </button>
+
+    </div>
+
+    <div class="card">
+
+        <div class="card-body">
+
+            <table class="table table-striped">
+
+                <thead>
+
+                    <tr>
+
+                        <th>ปี</th>
+                        <th>วันที่เริ่ม</th>
+                        <th>วันที่สิ้นสุด</th>
+                        <th>สถานะ</th>
+                        <th>จัดการ</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="inspectionRoundTable">
+
+                    <tr>
+
+                        <td colspan="5" class="text-center">
+
+                            กำลังโหลด...
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
